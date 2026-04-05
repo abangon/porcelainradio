@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ============================================================
+     ARTIST CONFIG 
+     ============================================================ -->
+<script>
+  const ARTIST = {
+    name:        "Dark Blues Gentleman",
+    tagline:     "Swamp blues from the darker side of midnight",
+    bio:         `Some men carry their demons like a fine coat — worn-in, familiar, never quite taken off. Dark Blues Gentleman is the sound of that weight: slow, smoky, and steeped in the mud of something older than memory.\n\nDrawing from the raw tradition of swamp blues and the shadows of jazz noir, each record is a dimly lit room you're not sure you should have entered — but can't bring yourself to leave.`,
+    accentColor: "#C8860A",       
+    bgColor:     "#0A0806",        
+    coverImage:  "https://raw.githubusercontent.com/abangon/darkbluesgetnleman/main/dbg.png",              
+    spotifyArtistId: "53NQtdnowy3eotUzJm91es", 
+    spotifyAlbumId:  "0uiybrS1njkaj6iOpvZ1dd", 
+    links: {
+      spotify:    "https://open.spotify.com/artist/53NQtdnowy3eotUzJm91es",
+      appleMusic: "https://music.apple.com/us/artist/dark-blues-gentleman/1875566110",
+      youtube:    "https://www.youtube.com/@thedarkbluesgentleman",
+    },
+    contactEmail: "press@darkbluesgentleman.com",
+    year:         "2026 Samsara Wheel Records. All rights reserved.",
+  };
+</script>
+<!-- ============================================================ -->
+
+<title id="page-title"></title>
+<meta name="description" id="page-desc" content="" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+<style>
+  /* ─── Tokens ─────────────────────────────────────────────── */
+  :root {
+    --accent:   #C8860A;
+    --bg:       #0A0806;
+    --surface:  #111009;
+    --border:   rgba(255,255,255,0.07);
+    --text:     #E8E0D4;
+    --muted:    #7A7060;
+    --ff-head:  'Playfair Display', Georgia, serif;
+    --ff-mono:  'DM Mono', monospace;
+    --max:      960px;
+    --gap:      clamp(2rem, 5vw, 4rem);
+  }
+
+  /* ─── Reset ──────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff-mono);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  /* ─── Noise overlay ──────────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+
+  /* ─── Layout ─────────────────────────────────────────────── */
+  .container { max-width: var(--max); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); position: relative; z-index: 1; }
+
+  /* ─── Hero ───────────────────────────────────────────────── */
+  .hero {
+     min-height: min(70vh, 600px);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+
+  .hero__label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero__name {
+    font-family: var(--ff-head);
+    font-size: clamp(3.2rem, 10vw, 8rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.35s forwards;
+  }
+
+  .hero__name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero__tagline {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    color: var(--muted);
+    max-width: 38ch;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.55s forwards;
+  }
+
+  .hero__cover {
+    position: absolute;
+    right: 0; top: 0;
+    width: clamp(220px, 38vw, 420px);
+    height: 100%;
+    object-fit: cover;
+    mask-image: linear-gradient(to left, black 0%, black 60%, transparent 90%);
+    -webkit-mask-image: linear-gradient(to left, black 0%, black 60%, transparent 90%);
+    opacity: 0;
+    animation: fadeIn 1.2s 0.1s forwards;
+  }
+
+  .hero__cover-placeholder {
+    position: absolute;
+    right: 0; top: 0;
+    width: clamp(220px, 38vw, 420px);
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, var(--accent) 200%);
+    opacity: 0.04;
+  }
+
+  /* Scroll hint */
+  .hero__scroll {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .hero__scroll::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--muted);
+  }
+
+  /* ─── Section generic ────────────────────────────────────── */
+  section { padding: var(--gap) 0; }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ─── Streaming links ────────────────────────────────────── */
+  .streams {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .stream-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1.25rem;
+    border: 1px solid var(--border);
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stream-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    z-index: -1;
+  }
+
+  .stream-btn:hover { color: var(--bg); border-color: var(--accent); }
+  .stream-btn:hover::before { transform: translateX(0); }
+
+  .stream-btn svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+  /* ─── Spotify embed ──────────────────────────────────────── */
+  .player-wrap {
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .player-wrap iframe { display: block; width: 100%; }
+
+  /* ─── Bio ────────────────────────────────────────────────── */
+  .bio-text {
+    font-family: var(--ff-head);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    line-height: 1.65;
+    font-weight: 400;
+    color: var(--text);
+    max-width: 60ch;
+    white-space: pre-line;
+  }
+
+  /* ─── Contact ────────────────────────────────────────────── */
+  .contact-link {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); }
+
+  /* ─── Footer ─────────────────────────────────────────────── */
+  footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ─── Animations ─────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .hero__cover, .hero__cover-placeholder { display: none; }
+    .hero::after { display: none; }
+    .streams { flex-direction: column; }
+    .stream-btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <p class="hero__label" id="hero-label">Official</p>
+      <h1 class="hero__name" id="hero-name"></h1>
+      <p class="hero__tagline" id="hero-tagline"></p>
+    </div>
+  </div>
+  <div class="container">
+    <span class="hero__scroll">Scroll</span>
+  </div>
+  <!-- Cover image (если задан) -->
+  <img class="hero__cover" id="hero-cover" src="" alt="" />
+  <div class="hero__cover-placeholder" id="hero-placeholder"></div>
+</section>
+
+<hr class="divider" />
+
+<!-- STREAMING -->
+<section>
+  <div class="container reveal">
+    <p class="section-label">Listen now</p>
+    <div class="streams" id="streams-list"></div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- SPOTIFY PLAYER -->
+<section>
+  <div class="container reveal">
+    <p class="section-label">Latest release</p>
+    <div class="player-wrap" id="player-wrap"></div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- BIO -->
+<section>
+  <div class="container reveal">
+    <p class="section-label">About</p>
+    <p class="bio-text" id="bio-text"></p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CONTACT -->
+<section>
+  <div class="container reveal">
+    <p class="section-label">Press & Booking</p>
+    <a class="contact-link" id="contact-link" href=""></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span id="footer-name"></span>
+      <span id="footer-year"></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── Init script ──────────────────────────────────────────── -->
+<script>
+  /* Apply CSS variables from config */
+  document.documentElement.style.setProperty('--accent', ARTIST.accentColor);
+  document.documentElement.style.setProperty('--bg',     ARTIST.bgColor);
+
+  /* Meta */
+  document.getElementById('page-title').textContent = ARTIST.name;
+  document.getElementById('page-desc').setAttribute('content', ARTIST.tagline);
+
+  /* Hero */
+  document.getElementById('hero-name').innerHTML =
+    ARTIST.name.replace(/(\w+)$/, '<em>$1</em>');
+  document.getElementById('hero-tagline').textContent = ARTIST.tagline;
+
+  /* Cover image */
+  const coverEl = document.getElementById('hero-cover');
+  const placeholderEl = document.getElementById('hero-placeholder');
+  if (ARTIST.coverImage) {
+    coverEl.src = ARTIST.coverImage;
+    coverEl.alt = ARTIST.name;
+    placeholderEl.style.display = 'none';
+  } else {
+    coverEl.style.display = 'none';
+  }
+
+  /* Streaming buttons */
+  const platformData = {
+    spotify:    { label: 'Spotify',      icon: '<svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.563 17.317a.75.75 0 01-1.032.249C13.838 15.7 10.613 15.3 7.21 16.1a.75.75 0 01-.353-1.456c3.717-.9 7.268-.514 10.008 1.044a.75.75 0 01.698 1.629zm1.482-3.303a.937.937 0 01-1.29.31c-2.896-1.78-7.312-2.296-10.733-1.257a.937.937 0 01-.545-1.791c3.914-1.19 8.777-.608 12.13 1.448a.937.937 0 01.438 1.29zm.127-3.44C15.515 8.523 10.055 8.34 6.958 9.284a1.125 1.125 0 01-.658-2.151c3.584-1.097 9.542-.885 13.306 1.47a1.124 1.124 0 01-1.434 1.73z"/></svg>' },
+    appleMusic: { label: 'Apple Music',  icon: '<svg viewBox="0 0 24 24"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208c-.192.448-.292.925-.363 1.408-.056.392-.08.79-.093 1.18 0 .05-.008.103-.012.154v11.899c.01.16.018.32.028.48.058.894.292 1.72.786 2.465.749 1.14 1.8 1.83 3.14 2.07.418.07.839.103 1.265.107h11.564c.483-.012.963-.048 1.434-.14 1.272-.253 2.282-.917 3.002-1.997.4-.598.615-1.266.695-1.974.044-.386.058-.773.058-1.16l.002-12.066c0-.053-.004-.104-.006-.155zm-5.73 9.975l-1.57.87-1.28.71-1.35.75V11.38c0-.39-.22-.74-.56-.93-.34-.18-.76-.18-1.1.01l-3.25 1.8c-.34.19-.55.55-.55.93v7.16l-1.02-.56V4.93l9.68 2.83v8.34z"/></svg>' },
+    youtube:    { label: 'YouTube Music',icon: '<svg viewBox="0 0 24 24"><path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/></svg>' },
+    deezer:     { label: 'Deezer',       icon: '<svg viewBox="0 0 24 24"><path d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.03h5.19V8.38H6.27zm6.27 0v3.03h5.19V8.38h-5.19zm6.27 0v3.03H24V8.38h-5.19zM6.27 12.6v3.04h5.19V12.6H6.27zm6.27 0v3.04h5.19V12.6h-5.19zm6.27 0v3.04H24V12.6h-5.19zM0 16.81v3.03h5.19v-3.03H0zm6.27 0v3.03h5.19v-3.03H6.27zm6.27 0v3.03h5.19v-3.03h-5.19zm6.27 0v3.03H24v-3.03h-5.19z"/></svg>' },
+  };
+
+  const streamsList = document.getElementById('streams-list');
+  Object.entries(ARTIST.links).forEach(([key, url]) => {
+    if (!url || url.includes('REPLACE_ME')) return;
+    const p = platformData[key];
+    if (!p) return;
+    const btn = document.createElement('a');
+    btn.href = url;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.className = 'stream-btn';
+    btn.innerHTML = `${p.icon}<span>${p.label}</span>`;
+    streamsList.appendChild(btn);
+  });
+
+  /* Spotify embed */
+  const playerWrap = document.getElementById('player-wrap');
+  if (ARTIST.spotifyAlbumId && !ARTIST.spotifyAlbumId.includes('REPLACE_ME')) {
+    playerWrap.innerHTML = `<iframe
+      src="https://open.spotify.com/embed/album/${ARTIST.spotifyAlbumId}?utm_source=generator&theme=0"
+      height="380" frameborder="0" allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"></iframe>`;
+  } else {
+    playerWrap.parentElement.style.display = 'none';
+    playerWrap.closest('section').style.display = 'none';
+  }
+
+  /* Bio */
+  document.getElementById('bio-text').textContent = ARTIST.bio;
+
+  /* Contact */
+  const cl = document.getElementById('contact-link');
+  cl.href = `mailto:${ARTIST.contactEmail}`;
+  cl.textContent = ARTIST.contactEmail;
+
+  /* Footer */
+  document.getElementById('footer-name').textContent = ARTIST.name;
+  document.getElementById('footer-year').textContent = `© ${ARTIST.year}`;
+
+  /* Scroll reveal */
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.15 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
